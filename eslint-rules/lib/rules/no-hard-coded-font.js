@@ -29,7 +29,7 @@ module.exports = {
           if (property.key) {
             const propName = property.key.name;
             if (propName === 'fontSize') {
-              if (property.value.type === 'CallExpression') {
+              if (property.value.type === 'CallExpression' || property.value.type === 'Identifier') {
                 return;
               }
               if (property.value.type === 'MemberExpression') {
