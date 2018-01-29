@@ -17,14 +17,13 @@ ruleTester.run('no-hard-coded-font', rule, {
   valid: [
     { code: 'const goodUsage = <Text style={{color: \'red\'}}/>;' },
     { code: 'const goodUsage = <Text style={{fontSize: Typography.text10.fontSize}}/>;' },
-    { code: 'const badUsage = <Text style={{fontSize: size}}/>;' },
   ],
   invalid: [
     {
       code: 'const badUsage = <Text style={{fontSize: 15}}/>;',
       errors: [
         {
-          messageId: 'reportMessage',
+          messageId: 'foo',
         },
       ],
     },
@@ -32,7 +31,15 @@ ruleTester.run('no-hard-coded-font', rule, {
       code: 'const badUsage = <Text style={{fontSize: Constants.isAndroid ? 16 : 17}}/>;',
       errors: [
         {
-          messageId: 'reportMessage',
+          messageId: 'foo',
+        },
+      ],
+    },
+    {
+      code: 'const badUsage = <Text style={{fontSize: size}}/>;',
+      errors: [
+        {
+          messageId: 'foo',
         },
       ],
     },
