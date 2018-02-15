@@ -24,6 +24,8 @@
         _viewBasedHighlightFrame = CGRectNull;
         self.backgroundColor = [UIColor clearColor];
         self.overlayColor = kDefaultOverlayColor;
+        self.minimumRectSize = CGSizeZero;
+        self.innerPadding = 0;
     }
     return self;
 }
@@ -38,11 +40,26 @@
     return !CGRectIsNull(frame) && frame.size.width > 0 && frame.size.height > 0;
 }
 
--(CGRect)gerHighlightRect
+-(CGRect)adjustFrame:(CGRect)frame {
+    CGFloat x = frame.origin.x;
+    CGFloat y = frame.origin.y;
+    CGFloat width = frame.size.width + self.innerPadding * 2;
+    CGFloat height = frame.size.height + self.innerPadding * 2;
+    
+    width = width < self.minimumRectSize.width ? self.minimumRectSize.width : width;
+    height = height < self.minimumRectSize.height ? self.minimumRectSize.height : height;
+    x = x - ((width - frame.size.width) / 2);
+    y = y - ((height - frame.size.height) / 2);
+    
+    return CGRectMake(x, y, width, height);
+}
+
+-(CGRect)getHighlightRect
 {
     CGRect highlightRect = self.highlightFrame;
     if ([self isFrameValid:_viewBasedHighlightFrame]) {
-        highlightRect = _viewBasedHighlightFrame;
+//        highlightRect = _viewBasedHighlightFrame;
+        highlightRect = [self adjustFrame: _viewBasedHighlightFrame];
         if (_highlightViewTagParams != nil) {
             id padding = _highlightViewTagParams[@"padding"];
             if (padding != nil) {
@@ -95,11 +112,11 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextClearRect(context, rect);
 
-    CGRect highlightRect = [self gerHighlightRect];
+    CGRect highlightRect = [self getHighlightRect];
     CGSize cornerRadii = [self getCornerRadiiForHighlightRect:highlightRect];
     
     UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:CGRectInfinite];
-    UIBezierPath* roundPath = [UIBezierPath bezierPathWithRoundedRect:highlightRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+    UIBezierPath *roundPath = [UIBezierPath bezierPathWithRoundedRect:highlightRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
     [clipPath appendPath:roundPath];
     clipPath.usesEvenOddFillRule = YES;
 
@@ -107,7 +124,6 @@
     [clipPath addClip];
     [self.overlayColor setFill];
     UIRectFill(rect);
-    CGContextRestoreGState(context);
     
     if (self.strokeColor && self.strokeWidth) {
         CGContextAddPath(context, roundPath.CGPath);
@@ -115,6 +131,8 @@
         CGContextSetLineWidth(context, [self.strokeWidth floatValue]);
         CGContextStrokePath(context);
     }
+    
+    CGContextRestoreGState(context);
 }
 
 -(void)setHighlightFrame:(CGRect)highlightFrame
@@ -128,6 +146,18 @@
 -(void)setOverlayColor:(UIColor *)overlayColor
 {
     _overlayColor = overlayColor;
+    [self setNeedsDisplay];
+}
+
+-(void)setMinimumRectSize:(CGSize)minimumRectSize
+{
+    _minimumRectSize = minimumRectSize;
+    [self setNeedsDisplay];
+}
+
+-(void)setInnerPadding:(CGFloat)innerPadding
+{
+    _innerPadding = innerPadding;
     [self setNeedsDisplay];
 }
 

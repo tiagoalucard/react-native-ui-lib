@@ -18,6 +18,8 @@ const HighlighterOverlayView = (props) => {
     children,
     highlightViewTag,
     highlightViewTagParams,
+    minimumRectSize,
+    innerPadding,
   } = props;
 
   let overlayColorToUse = overlayColor || DefaultOverlayColor;
@@ -43,6 +45,8 @@ const HighlighterOverlayView = (props) => {
         strokeWidth={strokeWidth}
         highlightViewTag={highlightViewTag}
         highlightViewTagParams={highlightViewTagParams}
+        minimumRectSize={minimumRectSize}
+        innerPadding={innerPadding}
       />
       {children}
     </Modal>
@@ -65,8 +69,8 @@ HighlighterOverlayView.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
   highlightViewTag: PropTypes.number,
   children: PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.node),
-    React.PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
   ]),
   highlightViewTagParams: PropTypes.shape({
     padding: PropTypes.oneOfType([
@@ -82,6 +86,11 @@ HighlighterOverlayView.propTypes = {
       y: PropTypes.number,
     }),
   }),
+  minimumRectSize: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
+  innerPadding: PropTypes.number,
 };
 
 export default HighlighterOverlayView;

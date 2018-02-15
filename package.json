@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-lib",
-  "version": "3.0.0",
+  "version": "3.2.16",
   "main": "index.js",
   "author": "Ethan Sharabi <ethan.shar@gmail.com>",
   "publishConfig": {
@@ -31,6 +31,7 @@
     "hoist-non-react-statics": "^2.3.0",
     "lodash": "^4.0.0",
     "prop-types": "^15.5.10",
+    "url-parse": "^1.2.0",
     "react-native-animatable": "^1.1.0",
     "react-native-blur": "^3.1.1",
     "react-native-interactable": "latest"
@@ -63,8 +64,8 @@
     "react-native-navigation": "^1.1.19"
   },
   "peerDependencies": {
-    "react": "15.4.2",
-    "react-native": "0.38.0"
+    "react": "16.0.0",
+    "react-native": "0.51.0"
   },
   "jest": {
     "preset": "react-native",
