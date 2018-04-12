@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Platform, Image, StyleSheet} from 'react-native';
+import { Platform, Image, StyleSheet } from 'react-native';
 import _ from 'lodash';
-import {BaseComponent} from '../../commons';
-import {Constants} from '../../helpers';
+import { BaseComponent } from '../../commons';
+import { Constants } from '../../helpers';
 import Text from '../text';
 import TouchableOpacity from '../touchableOpacity';
-import {Colors, Typography, ThemeManager, BorderRadiuses} from '../../style';
+import { Colors, Typography, ThemeManager, BorderRadiuses } from '../../style';
 import View from '../view';
 
 /**
@@ -131,7 +131,7 @@ export default class Button extends BaseComponent {
   getComponentDimensions(event) {
     if (Constants.isAndroid && Platform.Version <= 17) {
       const height = event.nativeEvent.layout.height;
-      this.setState({borderRadius: height / 2});
+      this.setState({ borderRadius: height / 2 });
     }
   }
 
@@ -140,18 +140,18 @@ export default class Button extends BaseComponent {
   }
 
   get isOutline() {
-    const {outline, outlineColor} = this.getThemeProps();
+    const { outline, outlineColor } = this.getThemeProps();
     return Boolean(outline || outlineColor);
   }
 
   get isFilled() {
-    const {link} = this.getThemeProps();
+    const { link } = this.getThemeProps();
     return !this.isOutline && !link;
   }
 
   getBackgroundColor() {
-    const {disabled, outline, link, backgroundColor: propsBackgroundColor} = this.getThemeProps();
-    const {backgroundColor: stateBackgroundColor} = this.state;
+    const { disabled, outline, link, backgroundColor: propsBackgroundColor } = this.getThemeProps();
+    const { backgroundColor: stateBackgroundColor } = this.state;
 
     if (!outline && !link) {
       if (disabled) {
@@ -164,14 +164,14 @@ export default class Button extends BaseComponent {
   }
 
   getActiveBackgroundColor() {
-    const {getActiveBackgroundColor} = this.getThemeProps();
+    const { getActiveBackgroundColor } = this.getThemeProps();
     if (getActiveBackgroundColor) {
       return getActiveBackgroundColor(this.getBackgroundColor(), this.getThemeProps());
     }
   }
 
   getLabelColor() {
-    const {link, linkColor, outline, outlineColor, disabled} = this.getThemeProps(); // this.props;
+    const { link, linkColor, outline, outlineColor, disabled } = this.getThemeProps(); // this.props;
 
     let color = ThemeManager.CTATextColor;
     if (link) {
@@ -189,17 +189,17 @@ export default class Button extends BaseComponent {
   }
 
   getContentSizeStyle() {
-    const {size, link, avoidInnerPadding} = this.props;
+    const { size, link, avoidInnerPadding } = this.props;
 
     if (avoidInnerPadding) {
       return;
     }
 
     const LABEL_STYLE_BY_SIZE = {};
-    LABEL_STYLE_BY_SIZE[Button.sizes.xSmall] = {paddingHorizontal: 12};
-    LABEL_STYLE_BY_SIZE[Button.sizes.small] = {paddingHorizontal: 15};
-    LABEL_STYLE_BY_SIZE[Button.sizes.medium] = {paddingHorizontal: Constants.isIOS ? 18 : 20};
-    LABEL_STYLE_BY_SIZE[Button.sizes.large] = {paddingHorizontal: Constants.isIOS ? 36 : 28};
+    LABEL_STYLE_BY_SIZE[Button.sizes.xSmall] = { paddingHorizontal: 12 };
+    LABEL_STYLE_BY_SIZE[Button.sizes.small] = { paddingHorizontal: 15 };
+    LABEL_STYLE_BY_SIZE[Button.sizes.medium] = { paddingHorizontal: Constants.isIOS ? 18 : 20 };
+    LABEL_STYLE_BY_SIZE[Button.sizes.large] = { paddingHorizontal: Constants.isIOS ? 36 : 28 };
 
     const labelSizeStyle = LABEL_STYLE_BY_SIZE[size];
 
@@ -212,12 +212,12 @@ export default class Button extends BaseComponent {
   }
 
   getLabelSizeStyle() {
-    const {size} = this.props;
+    const { size } = this.props;
 
     const LABEL_STYLE_BY_SIZE = {};
-    LABEL_STYLE_BY_SIZE[Button.sizes.xSmall] = {...Typography.text80};
-    LABEL_STYLE_BY_SIZE[Button.sizes.small] = {...Typography.text80};
-    LABEL_STYLE_BY_SIZE[Button.sizes.medium] = {...Typography.text80};
+    LABEL_STYLE_BY_SIZE[Button.sizes.xSmall] = { ...Typography.text80 };
+    LABEL_STYLE_BY_SIZE[Button.sizes.small] = { ...Typography.text80 };
+    LABEL_STYLE_BY_SIZE[Button.sizes.medium] = { ...Typography.text80 };
     LABEL_STYLE_BY_SIZE[Button.sizes.large] = {};
 
     const labelSizeStyle = LABEL_STYLE_BY_SIZE[size];
@@ -225,7 +225,7 @@ export default class Button extends BaseComponent {
   }
 
   getContainerSizeStyle() {
-    const {size, outline, avoidMinWidth} = this.props;
+    const { size, outline, avoidMinWidth } = this.props;
 
     const CONTAINER_STYLE_BY_SIZE = {};
     CONTAINER_STYLE_BY_SIZE[Button.sizes.xSmall] = {
@@ -260,7 +260,7 @@ export default class Button extends BaseComponent {
   }
 
   getOutlineStyle() {
-    const {outline, outlineColor, link, disabled} = this.props;
+    const { outline, outlineColor, link, disabled } = this.props;
     let outlineStyle;
     if ((outline || outlineColor) && !link) {
       outlineStyle = {
@@ -276,34 +276,34 @@ export default class Button extends BaseComponent {
   }
 
   getBorderRadiusStyle() {
-    const {link, fullWidth, borderRadius: borderRadiusFromProps} = this.props;
+    const { link, fullWidth, borderRadius: borderRadiusFromProps } = this.props;
     if (link || fullWidth || borderRadiusFromProps === 0) {
-      return {borderRadius: 0};
+      return { borderRadius: 0 };
     }
 
-    const {borderRadius: borderRadiusFromState} = this.state;
+    const { borderRadius: borderRadiusFromState } = this.state;
     const borderRadius = borderRadiusFromProps || borderRadiusFromState || BorderRadiuses.br100;
-    return {borderRadius};
+    return { borderRadius };
   }
 
   getShadowStyle() {
     const backgroundColor = this.getBackgroundColor();
-    const {enableShadow} = this.props;
+    const { enableShadow } = this.props;
     if (enableShadow) {
-      return [this.styles.shadowStyle, backgroundColor && {shadowColor: backgroundColor}];
+      return [this.styles.shadowStyle, backgroundColor && { shadowColor: backgroundColor }];
     }
   }
 
   getIconStyle() {
-    const {size, disabled, iconStyle: propsIconStyle} = this.props;
+    const { size, disabled, iconStyle: propsIconStyle } = this.props;
     const iconStyle = {
       tintColor: this.getLabelColor(),
     };
 
     if ([Button.sizes.large, Button.sizes.medium].includes(size)) {
-      iconStyle.marginRight = 8;
+      iconStyle.marginLeft = 8;
     } else {
-      iconStyle.marginRight = 4;
+      iconStyle.marginLeft = 4;
     }
 
     if (disabled && !this.isFilled) {
@@ -314,7 +314,7 @@ export default class Button extends BaseComponent {
   }
 
   renderIcon() {
-    const {iconSource} = this.props;
+    const { iconSource } = this.props;
     if (iconSource) {
       const iconStyle = this.getIconStyle();
       return <Image source={iconSource} style={iconStyle} />;
@@ -323,14 +323,14 @@ export default class Button extends BaseComponent {
   }
 
   renderLabel() {
-    const {label, labelStyle, labelProps} = this.props;
+    const { label, labelStyle, labelProps } = this.props;
     const typography = this.extractTypographyValue();
     const color = this.getLabelColor();
     const labelSizeStyle = this.getLabelSizeStyle();
     if (label) {
       return (
         <Text
-          style={[this.styles.text, color && {color}, labelSizeStyle, {...typography}, labelStyle]}
+          style={[this.styles.text, color && { color }, labelSizeStyle, { ...typography }, labelStyle]}
           numberOfLines={1}
           {...labelProps}
         >
@@ -342,9 +342,9 @@ export default class Button extends BaseComponent {
   }
 
   render() {
-    const {onPress, disabled, link, style, containerStyle, testID, ...others} = this.getThemeProps();
+    const { onPress, disabled, link, style, containerStyle, testID, ...others } = this.getThemeProps();
     const shadowStyle = this.getShadowStyle();
-    const {margins} = this.state;
+    const { margins } = this.state;
     const backgroundColor = this.getBackgroundColor();
     const outlineStyle = this.getOutlineStyle();
     const containerSizeStyle = this.getContainerSizeStyle();
@@ -361,7 +361,7 @@ export default class Button extends BaseComponent {
           shadowStyle,
           margins,
           containerStyle,
-          backgroundColor && {backgroundColor},
+          backgroundColor && { backgroundColor },
           borderRadiusStyle,
           outlineStyle,
           style,
@@ -376,8 +376,8 @@ export default class Button extends BaseComponent {
       >
         <View row centerV style={contentSizeStyle}>
           {this.props.children}
-          {this.renderIcon()}
           {this.renderLabel()}
+          {this.renderIcon()}
         </View>
         {/* <View
           style={[
@@ -415,7 +415,7 @@ function createStyles() {
     },
     shadowStyle: {
       shadowColor: Colors.blue10,
-      shadowOffset: {height: 5, width: 0},
+      shadowOffset: { height: 5, width: 0 },
       shadowOpacity: 0.35,
       shadowRadius: 9.5,
       elevation: 2,
